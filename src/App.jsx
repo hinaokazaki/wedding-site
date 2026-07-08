@@ -65,7 +65,6 @@ const T = {
     invite_body:
       "호주에서 처음 만나\n7년간 서로의 곁을 지켜온 저희가\n이제 부부의 연을 맺게 되었습니다.\n\n나란히 같은 곳을 바라보며\n한결같이 예쁘게 살아가겠습니다.\n\n저희의 설레는 첫걸음을\n함께 빛내 주시면 감사하겠습니다.",
     family_title: "혼주",
-    son: (r) => `의 ${r}`,
     call: "전화",
     sms: "문자",
     calendar_title: "예식 일시",
@@ -120,7 +119,6 @@ const T = {
     invite_body:
       "オーストラリアで出会ってから7年\n互いに支え合ってきた私たちは\nこのたび夫婦として\n新しい一歩を踏み出すことになりました。\n\nこれからも同じ方向を見つめながら\n変わらず仲睦まじく歩んでまいります。\n\n私たちの門出を\n温かく見守っていただければ幸いです。",
     family_title: "両家のご案内",
-    son: (r) => ` ${r}`,
     call: "電話",
     sms: "SMS",
     calendar_title: "挙式日時",
@@ -409,11 +407,9 @@ export default function WeddingInvitation() {
             },
           ].map((fam, i) => (
             <div key={i} style={S.famRow}>
-              <p style={{ ...S.body, margin: 0 }}>
-                {fam.f} · {fam.m}
-                <span style={{ color: C.sub, fontSize: 13 }}>{t.son(fam.r)}</span>{" "}
-                <b style={{ fontWeight: 600 }}>{fam.n}</b>
-              </p>
+              <p style={{ ...S.body, margin: 0 }}>{fam.f} · {fam.m}</p>
+              <p style={{ fontSize: 13, color: C.sub, margin: "6px 0" }}>{fam.r}</p>
+              <p style={{ ...S.body, margin: 0, fontWeight: 600 }}>{fam.n}</p>
               <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 10 }}>
                 <a href={`tel:${fam.phone}`} style={S.miniBtn}>{t.call}</a>
                 <a href={`sms:${fam.phone}`} style={S.miniBtn}>{t.sms}</a>
