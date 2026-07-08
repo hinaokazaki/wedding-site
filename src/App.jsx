@@ -109,7 +109,6 @@ const T = {
     gb_empty: "아직 작성된 방명록이 없습니다.",
     footer: "민우 · 히나 올림",
     error: "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
-    font_label: "글꼴",
   },
   ja: {
     langLabel: "日本語",
@@ -166,16 +165,11 @@ const T = {
     gb_empty: "まだメッセージはありません。",
     footer: "ミヌ · ひな",
     error: "送信に失敗しました。しばらくしてからもう一度お試しください。",
-    font_label: "フォント",
   },
 };
 
-/* ---------- フォントペア / 폰트 페어 ---------- */
-const FONT_PAIRS = [
-  { id: "classic", labelKo: "클래식 명조", labelJa: "クラシック明朝", kr: "'Gowun Batang', serif", jp: "'Shippori Mincho', serif" },
-  { id: "modern", labelKo: "모던 명조", labelJa: "モダン明朝", kr: "'Noto Serif KR', serif", jp: "'Noto Serif JP', serif" },
-  { id: "gothic", labelKo: "고딕", labelJa: "ゴシック", kr: "'Noto Sans KR', sans-serif", jp: "'Noto Sans JP', sans-serif" },
-];
+/* ---------- フォント / 폰트 (모던 명조 고정) ---------- */
+const BODY_FONT = { kr: "'Noto Serif KR', serif", jp: "'Noto Serif JP', serif" };
 
 const C = {
   paper: "#FBF9F5",
@@ -188,7 +182,6 @@ const C = {
 
 export default function WeddingInvitation() {
   const [lang, setLang] = useState("ko");
-  const [fontId, setFontId] = useState("classic");
   const [fade, setFade] = useState(false);
   const [toast, setToast] = useState("");
   const [rsvps, setRsvps] = useState([]);
@@ -267,8 +260,7 @@ export default function WeddingInvitation() {
   };
 
   const t = T[lang];
-  const font = FONT_PAIRS.find((f) => f.id === fontId);
-  const bodyFont = lang === "ko" ? font.kr : font.jp;
+  const bodyFont = lang === "ko" ? BODY_FONT.kr : BODY_FONT.jp;
 
   const switchLang = (next) => {
     if (next === lang) return;
@@ -352,7 +344,7 @@ export default function WeddingInvitation() {
   return (
     <div style={S.page}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Shippori+Mincho:wght@400;500;600&family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+KR:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
         * { box-sizing: border-box; }
         button { cursor: pointer; }
         input, select, textarea, button { font-family: inherit; }
@@ -361,18 +353,6 @@ export default function WeddingInvitation() {
 
       {/* ---- 上部コントロールバー ---- */}
       <div style={S.topBar}>
-        <select
-          value={fontId}
-          onChange={(e) => setFontId(e.target.value)}
-          style={S.fontSelect}
-          aria-label={t.font_label}
-        >
-          {FONT_PAIRS.map((f) => (
-            <option key={f.id} value={f.id}>
-              {lang === "ko" ? f.labelKo : f.labelJa}
-            </option>
-          ))}
-        </select>
         <div style={S.langPill}>
           <button
             onClick={() => switchLang("ko")}
@@ -680,19 +660,9 @@ function styles(bodyFont) {
       transform: "translateX(-50%)",
       width: "min(430px, calc(100% - 24px))",
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "flex-end",
       alignItems: "center",
       zIndex: 50,
-    },
-    fontSelect: {
-      border: `1px solid ${C.line}`,
-      background: "rgba(255,255,255,.92)",
-      borderRadius: 999,
-      padding: "7px 12px",
-      fontSize: 12,
-      color: C.ink,
-      boxShadow: "0 2px 10px rgba(0,0,0,.06)",
-      outline: "none",
     },
     langPill: {
       display: "flex",
