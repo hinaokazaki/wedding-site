@@ -18,8 +18,8 @@ const WEDDING = {
     motherJa: "キム・ヨンオク",
     relationKo: "장남",
     relationJa: "長男",
-    fatherPhone: "010-0000-0000", // ← 実際の番号に差し替え
-    motherPhone: "010-0000-0000", // ← 実際の番号に差し替え
+    fatherPhone: "010-9268-9747",
+    motherPhone: "010-7625-6877",
   },
   bride: {
     ko: "오카자키 히나",
@@ -42,18 +42,18 @@ const WEDDING = {
   },
   accounts: {
     groomFather: {
-      bankKo: "은행명", // ← 実際の銀行名に差し替え
-      number: "000-000000-00-000",
+      bankKo: "농협은행",
+      number: "3021449643411",
       holderKo: "표승훈",
     },
     groomMother: {
-      bankKo: "은행명", // ← 実際の銀行名に差し替え
-      number: "000-000000-00-000",
+      bankKo: "국민은행",
+      number: "27250104116284",
       holderKo: "김영옥",
     },
     groom: {
       bankKo: "기업은행",
-      number: "000-000000-00-000",
+      number: "01051286879",
       holderKo: "표민우",
     },
   },
