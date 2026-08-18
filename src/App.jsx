@@ -18,7 +18,8 @@ const WEDDING = {
     motherJa: "キム・ヨンオク",
     relationKo: "장남",
     relationJa: "長男",
-    phone: "010-0000-0000", // ← 実際の番号に差し替え
+    fatherPhone: "010-0000-0000", // ← 実際の番号に差し替え
+    motherPhone: "010-0000-0000", // ← 実際の番号に差し替え
   },
   bride: {
     ko: "오카자키 히나",
@@ -29,7 +30,8 @@ const WEDDING = {
     motherJa: "岡﨑 理穂",
     relationKo: "장녀",
     relationJa: "長女",
-    phone: "080-61379-155",
+    fatherPhone: "010-0000-0000", // ← 実際の番号に差し替え
+    motherPhone: "010-0000-0000", // ← 実際の番号に差し替え
   },
   venue: {
     nameKo: "수원 마이어스 웨딩홀 2F",
@@ -87,7 +89,6 @@ const T = {
       "호주에서 처음 만나\n7년간 서로의 곁을 지켜온 저희가\n이제 부부의 연을 맺게 되었습니다.\n\n나란히 같은 곳을 바라보며\n한결같이 예쁘게 살아가겠습니다.\n\n저희의 설레는 첫걸음을\n함께 빛내 주시면 감사하겠습니다.",
     family_title: "혼주",
     call: "전화",
-    sms: "문자",
     calendar_title: "예식 일시",
     dday: (d) =>
       d > 0
@@ -147,7 +148,6 @@ const T = {
       "オーストラリアで出会ってから7年\n互いに支え合ってきた私たちは\nこのたび夫婦として\n新しい一歩を踏み出すことになりました。\n\nこれからも同じ方向を見つめながら\n変わらず仲睦まじく歩んでまいります。\n\n私たちの門出を\n温かく見守っていただければ幸いです。",
     family_title: "両家のご案内",
     call: "電話",
-    sms: "SMS",
     calendar_title: "挙式日時",
     dday: (d) =>
       d > 0
@@ -479,7 +479,8 @@ export default function WeddingInvitation() {
                   ? WEDDING.groom.relationKo
                   : WEDDING.groom.relationJa,
               n: names.g,
-              phone: WEDDING.groom.phone,
+              fatherPhone: WEDDING.groom.fatherPhone,
+              motherPhone: WEDDING.groom.motherPhone,
             },
             {
               f:
@@ -491,7 +492,8 @@ export default function WeddingInvitation() {
                   ? WEDDING.bride.relationKo
                   : WEDDING.bride.relationJa,
               n: names.b,
-              phone: WEDDING.bride.phone,
+              fatherPhone: WEDDING.bride.fatherPhone,
+              motherPhone: WEDDING.bride.motherPhone,
             },
           ].map((fam, i) => (
             <div key={i} style={S.famRow}>
@@ -505,17 +507,28 @@ export default function WeddingInvitation() {
               <div
                 style={{
                   display: "flex",
+                  flexDirection: "column",
                   gap: 8,
-                  justifyContent: "center",
+                  alignItems: "center",
                   marginTop: 10,
                 }}
               >
-                <a href={`tel:${fam.phone}`} style={S.miniBtn}>
-                  {t.call}
-                </a>
-                <a href={`sms:${fam.phone}`} style={S.miniBtn}>
-                  {t.sms}
-                </a>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ ...S.body, margin: 0 }}>
+                    {fam.f} : {fam.fatherPhone}
+                  </span>
+                  <a href={`tel:${fam.fatherPhone}`} style={S.miniBtn}>
+                    {t.call}
+                  </a>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ ...S.body, margin: 0 }}>
+                    {fam.m} : {fam.motherPhone}
+                  </span>
+                  <a href={`tel:${fam.motherPhone}`} style={S.miniBtn}>
+                    {t.call}
+                  </a>
+                </div>
               </div>
             </div>
           ))}
