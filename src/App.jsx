@@ -64,7 +64,7 @@ const WEDDING = {
    public/bgm/bgm.mp3 を置くとその曲が流れます。
    ファイルが無い/再生できない場合は自動でデモピアノにフォールバックします。
    別の場所(Supabase Storage等)に置くならURLをここに書き換えてください。 */
-const BGM_URL = "/bgm/bgm.mp3";
+const BGM_URL = "/bgm/bgmBlue.mp3";
 
 /* ---------- 写真 / 사진 (自動埋め込み) ---------- */
 const HERO_IMG = "/images/hero.webp";
