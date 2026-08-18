@@ -729,7 +729,7 @@ export default function WeddingInvitation() {
         )}
 
         {/* ---- RSVP ---- */}
-        <section style={S.section}>
+        <section style={{ ...S.section, borderTop: `1px solid ${C.line}` }}>
           <p style={S.eyebrow}>R.S.V.P</p>
           <h2 style={S.h2}>{t.rsvp_title}</h2>
           <p style={{ ...S.body, marginBottom: 24 }}>{t.rsvp_lead}</p>
