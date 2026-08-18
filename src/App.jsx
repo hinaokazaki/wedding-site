@@ -497,9 +497,7 @@ export default function WeddingInvitation() {
               fatherPhone: WEDDING.bride.fatherPhone,
               motherPhone: WEDDING.bride.motherPhone,
             },
-          ]
-            .filter((fam) => !(lang === "ko" && fam.side === "bride"))
-            .map((fam, i) => (
+          ].map((fam, i) => (
             <div key={i} style={S.famRow}>
               <p style={{ ...S.body, margin: 0 }}>
                 {fam.f} · {fam.m}
@@ -508,7 +506,7 @@ export default function WeddingInvitation() {
                 {fam.r}
               </p>
               <p style={{ ...S.body, margin: 0, fontWeight: 600 }}>{fam.n}</p>
-              {lang === "ko" && (
+              {lang === "ko" && fam.side === "groom" && (
                 <div
                   style={{
                     display: "flex",
