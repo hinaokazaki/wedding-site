@@ -479,6 +479,7 @@ export default function WeddingInvitation() {
                   ? WEDDING.groom.relationKo
                   : WEDDING.groom.relationJa,
               n: names.g,
+              side: "groom",
               fatherPhone: WEDDING.groom.fatherPhone,
               motherPhone: WEDDING.groom.motherPhone,
             },
@@ -492,10 +493,13 @@ export default function WeddingInvitation() {
                   ? WEDDING.bride.relationKo
                   : WEDDING.bride.relationJa,
               n: names.b,
+              side: "bride",
               fatherPhone: WEDDING.bride.fatherPhone,
               motherPhone: WEDDING.bride.motherPhone,
             },
-          ].map((fam, i) => (
+          ]
+            .filter((fam) => !(lang === "ko" && fam.side === "bride"))
+            .map((fam, i) => (
             <div key={i} style={S.famRow}>
               <p style={{ ...S.body, margin: 0 }}>
                 {fam.f} · {fam.m}
@@ -504,32 +508,38 @@ export default function WeddingInvitation() {
                 {fam.r}
               </p>
               <p style={{ ...S.body, margin: 0, fontWeight: 600 }}>{fam.n}</p>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 8,
-                  alignItems: "center",
-                  marginTop: 10,
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ ...S.body, margin: 0 }}>
-                    {fam.f} : {fam.fatherPhone}
-                  </span>
-                  <a href={`tel:${fam.fatherPhone}`} style={S.miniBtn}>
-                    {t.call}
-                  </a>
+              {lang === "ko" && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                    alignItems: "center",
+                    marginTop: 10,
+                  }}
+                >
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
+                    <span style={{ ...S.body, margin: 0 }}>
+                      {fam.f} : {fam.fatherPhone}
+                    </span>
+                    <a href={`tel:${fam.fatherPhone}`} style={S.miniBtn}>
+                      {t.call}
+                    </a>
+                  </div>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
+                    <span style={{ ...S.body, margin: 0 }}>
+                      {fam.m} : {fam.motherPhone}
+                    </span>
+                    <a href={`tel:${fam.motherPhone}`} style={S.miniBtn}>
+                      {t.call}
+                    </a>
+                  </div>
                 </div>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ ...S.body, margin: 0 }}>
-                    {fam.m} : {fam.motherPhone}
-                  </span>
-                  <a href={`tel:${fam.motherPhone}`} style={S.miniBtn}>
-                    {t.call}
-                  </a>
-                </div>
-              </div>
+              )}
             </div>
           ))}
         </section>
