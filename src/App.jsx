@@ -41,24 +41,21 @@ const WEDDING = {
     tel: "031-267-5500",
   },
   accounts: {
-    groomSide: [
-      {
-        bankKo: "기업은행",
-        bankJa: "IBK企業銀行",
-        number: "000-000000-00-000",
-        holderKo: "표민우",
-        holderJa: "ピョ・ミヌ",
-      },
-    ],
-    brideSide: [
-      {
-        bankKo: "국민은행",
-        bankJa: "KB国民銀行",
-        number: "000000-00-000000",
-        holderKo: "오카자키 히나",
-        holderJa: "岡﨑 弘奈",
-      },
-    ],
+    groomFather: {
+      bankKo: "은행명", // ← 実際の銀行名に差し替え
+      number: "000-000000-00-000",
+      holderKo: "표승훈",
+    },
+    groomMother: {
+      bankKo: "은행명", // ← 実際の銀行名に差し替え
+      number: "000-000000-00-000",
+      holderKo: "김영옥",
+    },
+    groom: {
+      bankKo: "기업은행",
+      number: "000-000000-00-000",
+      holderKo: "표민우",
+    },
   },
 };
 
@@ -114,6 +111,9 @@ const T = {
       "참석이 어려우신 분들을 위해 기재했습니다.\n너그러운 마음으로 양해 부탁드립니다.",
     groom_side: "신랑측",
     bride_side: "신부측",
+    account_groom_father: "신랑의 아버지",
+    account_groom_mother: "신랑의 어머니",
+    account_groom: "신랑",
     copy: "복사",
     copied: "복사되었습니다",
     rsvp_title: "참석 여부",
@@ -169,9 +169,6 @@ const T = {
     parking_label: "駐車場",
     parking_body:
       "NCモール地下駐車場をご利用ください(2時間無料・ターミナル側エレベーター)\n満車の場合はEマート駐車場もご利用いただけます(2時間無料)",
-    account_title: "ご祝儀について",
-    account_note:
-      "韓国では当日受付でのお渡しのほか、\n銀行振込でお気持ちをお送りいただく習慣がございます。\nご参列が難しい方はこちらをご利用ください。",
     groom_side: "新郎側",
     bride_side: "新婦側",
     copy: "コピー",
@@ -681,33 +678,33 @@ export default function WeddingInvitation() {
         </section>
 
         {/* ---- ACCOUNTS ---- */}
-        <section style={{ ...S.section, background: "#F6F1EA" }}>
-          <p style={S.eyebrow}>WITH LOVE</p>
-          <h2 style={S.h2}>{t.account_title}</h2>
-          <p style={{ ...S.sub, whiteSpace: "pre-line", marginBottom: 22 }}>
-            {t.account_note}
-          </p>
-          {[
-            { label: t.groom_side, list: WEDDING.accounts.groomSide },
-            { label: t.bride_side, list: WEDDING.accounts.brideSide },
-          ].map((grp) => (
-            <div key={grp.label} style={{ marginBottom: 16 }}>
-              <p
-                style={{
-                  ...S.sub,
-                  fontSize: 12,
-                  letterSpacing: 2,
-                  marginBottom: 8,
-                }}
-              >
-                {grp.label}
-              </p>
-              {grp.list.map((a, i) => (
-                <div key={i} style={S.accountCard}>
+        {lang === "ko" && (
+          <section style={{ ...S.section, background: "#F6F1EA" }}>
+            <p style={S.eyebrow}>WITH LOVE</p>
+            <h2 style={S.h2}>{t.account_title}</h2>
+            <p style={{ ...S.sub, whiteSpace: "pre-line", marginBottom: 22 }}>
+              {t.account_note}
+            </p>
+            {[
+              { label: t.account_groom_father, account: WEDDING.accounts.groomFather },
+              { label: t.account_groom_mother, account: WEDDING.accounts.groomMother },
+              { label: t.account_groom, account: WEDDING.accounts.groom },
+            ].map((grp) => (
+              <div key={grp.label} style={{ marginBottom: 16 }}>
+                <p
+                  style={{
+                    ...S.sub,
+                    fontSize: 12,
+                    letterSpacing: 2,
+                    marginBottom: 8,
+                  }}
+                >
+                  {grp.label}
+                </p>
+                <div style={S.accountCard}>
                   <div style={{ textAlign: "left" }}>
                     <p style={{ margin: 0, fontSize: 13, color: C.sub }}>
-                      {lang === "ko" ? a.bankKo : a.bankJa} ·{" "}
-                      {lang === "ko" ? a.holderKo : a.holderJa}
+                      {grp.account.bankKo} · {grp.account.holderKo}
                     </p>
                     <p
                       style={{
@@ -716,17 +713,20 @@ export default function WeddingInvitation() {
                         letterSpacing: 0.5,
                       }}
                     >
-                      {a.number}
+                      {grp.account.number}
                     </p>
                   </div>
-                  <button onClick={() => copyText(a.number)} style={S.miniBtn}>
+                  <button
+                    onClick={() => copyText(grp.account.number)}
+                    style={S.miniBtn}
+                  >
                     {t.copy}
                   </button>
                 </div>
-              ))}
-            </div>
-          ))}
-        </section>
+              </div>
+            ))}
+          </section>
+        )}
 
         {/* ---- RSVP ---- */}
         <section style={S.section}>
