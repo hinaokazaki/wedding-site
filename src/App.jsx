@@ -232,6 +232,30 @@ export default function WeddingInvitation() {
   const [sending, setSending] = useState(false);
   const audioRef = useRef(null);
   const toneRef = useRef(null);
+  const touchStartXRef = useRef(null);
+
+  const showPrevImage = (e) => {
+    e.stopPropagation();
+    setLightbox((i) => (i - 1 + GALLERY_IMGS.length) % GALLERY_IMGS.length);
+  };
+  const showNextImage = (e) => {
+    e.stopPropagation();
+    setLightbox((i) => (i + 1) % GALLERY_IMGS.length);
+  };
+  const handleLightboxTouchStart = (e) => {
+    touchStartXRef.current = e.touches[0].clientX;
+  };
+  const handleLightboxTouchEnd = (e) => {
+    if (touchStartXRef.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartXRef.current;
+    touchStartXRef.current = null;
+    if (Math.abs(diff) < 40) return;
+    if (diff > 0) {
+      setLightbox((i) => (i - 1 + GALLERY_IMGS.length) % GALLERY_IMGS.length);
+    } else {
+      setLightbox((i) => (i + 1) % GALLERY_IMGS.length);
+    }
+  };
 
   useEffect(() => {
     if (!supabase) return;
@@ -580,7 +604,7 @@ export default function WeddingInvitation() {
               <div
                 key={i}
                 style={S.galleryCell}
-                onClick={() => setLightbox(src)}
+                onClick={() => setLightbox(i)}
               >
                 <img src={src} alt="" style={S.photoImg} loading="lazy" />
               </div>
@@ -907,9 +931,34 @@ export default function WeddingInvitation() {
         </section>
       </div>
 
-      {lightbox && (
-        <div style={S.lightbox} onClick={() => setLightbox(null)}>
-          <img src={lightbox} alt="" style={S.lightboxImg} />
+      {lightbox !== null && (
+        <div
+          style={S.lightbox}
+          onClick={() => setLightbox(null)}
+          onTouchStart={handleLightboxTouchStart}
+          onTouchEnd={handleLightboxTouchEnd}
+        >
+          <button
+            type="button"
+            aria-label="Previous"
+            style={{ ...S.lightboxNav, ...S.lightboxNavLeft }}
+            onClick={showPrevImage}
+          >
+            ‹
+          </button>
+          <img
+            src={GALLERY_IMGS[lightbox]}
+            alt=""
+            style={S.lightboxImg}
+          />
+          <button
+            type="button"
+            aria-label="Next"
+            style={{ ...S.lightboxNav, ...S.lightboxNavRight }}
+            onClick={showNextImage}
+          >
+            ›
+          </button>
         </div>
       )}
       <button
@@ -1107,6 +1156,26 @@ function styles(bodyFont) {
       borderRadius: 4,
       objectFit: "contain",
     },
+    lightboxNav: {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: 44,
+      height: 44,
+      borderRadius: "50%",
+      border: "none",
+      background: "rgba(255,255,255,.15)",
+      color: "#fff",
+      fontSize: 28,
+      lineHeight: 1,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      cursor: "pointer",
+      zIndex: 210,
+    },
+    lightboxNavLeft: { left: 8 },
+    lightboxNavRight: { right: 8 },
     bgmBtn: {
       position: "fixed",
       right: "max(12px, calc(50% - 215px + 12px))",
