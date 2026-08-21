@@ -232,6 +232,7 @@ export default function WeddingInvitation() {
   const [sending, setSending] = useState(false);
   const audioRef = useRef(null);
   const toneRef = useRef(null);
+  const bgmStartedRef = useRef(false);
   const touchStartXRef = useRef(null);
 
   const showPrevImage = (e) => {
@@ -308,30 +309,61 @@ export default function WeddingInvitation() {
     Tone.Transport.start();
   };
 
+  const playBgm = async () => {
+    if (bgmStartedRef.current) return;
+    try {
+      if (BGM_URL) {
+        if (!audioRef.current) {
+          audioRef.current = new Audio(BGM_URL);
+          audioRef.current.loop = true;
+          audioRef.current.volume = 0.6;
+        }
+        try {
+          await audioRef.current.play();
+        } catch {
+          audioRef.current = null;
+          await startDemoPiano(); // 音源が無ければデモピアノ
+        }
+      } else {
+        await startDemoPiano();
+      }
+      bgmStartedRef.current = true;
+      setBgmOn(true);
+    } catch {
+      // ブラウザの自動再生制限でブロックされた場合はユーザー操作を待って再試行する
+    }
+  };
+
   const toggleBgm = async () => {
     if (bgmOn) {
       audioRef.current?.pause();
       Tone.Transport.pause();
+      bgmStartedRef.current = false;
       setBgmOn(false);
       return;
     }
-    if (BGM_URL) {
-      if (!audioRef.current) {
-        audioRef.current = new Audio(BGM_URL);
-        audioRef.current.loop = true;
-        audioRef.current.volume = 0.6;
-      }
-      try {
-        await audioRef.current.play();
-      } catch {
-        audioRef.current = null;
-        await startDemoPiano(); // 音源が無ければデモピアノ
-      }
-    } else {
-      await startDemoPiano();
-    }
-    setBgmOn(true);
+    await playBgm();
   };
+
+  // ページ読み込み時に自動再生を試み、ブロックされた場合は最初のユーザー操作で再生を開始する
+  useEffect(() => {
+    let active = true;
+    const events = ["pointerdown", "keydown", "touchstart"];
+    const tryStart = async () => {
+      if (!active || bgmStartedRef.current) return;
+      await playBgm();
+      if (bgmStartedRef.current) {
+        events.forEach((ev) => window.removeEventListener(ev, tryStart));
+      }
+    };
+    tryStart();
+    events.forEach((ev) => window.addEventListener(ev, tryStart));
+    return () => {
+      active = false;
+      events.forEach((ev) => window.removeEventListener(ev, tryStart));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const t = T[lang];
   const bodyFont = lang === "ko" ? BODY_FONT.kr : BODY_FONT.jp;
