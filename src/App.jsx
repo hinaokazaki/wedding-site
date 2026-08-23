@@ -960,6 +960,9 @@ export default function WeddingInvitation() {
           </p>
           <p style={S.sub}>{t.dateShort}</p>
           <p style={{ ...S.sub, marginTop: 16 }}>{t.footer}</p>
+          <p style={{ ...S.sub, marginTop: 8, fontSize: 11, opacity: 0.6 }}>
+            Created by Hina
+          </p>
         </section>
       </div>
 
