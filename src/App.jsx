@@ -514,7 +514,7 @@ export default function WeddingInvitation() {
         <section style={S.section}>
           <p style={S.eyebrow}>INVITATION</p>
           <h2 style={S.h2}>{t.invite_title}</h2>
-          <p style={S.body}>{t.invite_body}</p>
+          <p style={{ ...S.body, fontSize: 17 }}>{t.invite_body}</p>
         </section>
 
         {/* ---- FAMILY ---- */}
@@ -1107,8 +1107,8 @@ function styles(bodyFont) {
       margin: "4px 0",
       letterSpacing: 2,
     },
-    heroDate: { fontSize: 14, margin: "0 0 4px", color: C.ink },
-    heroVenue: { fontSize: 13, color: C.sub, margin: 0 },
+    heroDate: { fontSize: 16, margin: "0 0 4px", color: C.ink },
+    heroVenue: { fontSize: 15, color: C.sub, margin: 0 },
     famRow: {
       background: C.card,
       border: `1px solid ${C.line}`,
