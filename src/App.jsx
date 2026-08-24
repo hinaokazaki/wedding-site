@@ -462,7 +462,6 @@ export default function WeddingInvitation() {
   return (
     <div style={S.page}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
         * { box-sizing: border-box; }
         button { cursor: pointer; }
         input, select, textarea, button { font-family: inherit; }
