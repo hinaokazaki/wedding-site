@@ -496,7 +496,7 @@ export default function WeddingInvitation() {
       >
         {/* ---- HERO ---- */}
         <section style={{ ...S.section, paddingTop: 72 }}>
-          <p style={S.eyebrow}>{t.hero_eyebrow}</p>
+          <p style={{ ...S.eyebrow, fontSize: 15 }}>{t.hero_eyebrow}</p>
           <div style={S.heroPhoto}>
             <img src={HERO_IMG} alt="" style={S.photoImg} />
           </div>
