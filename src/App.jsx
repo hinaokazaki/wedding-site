@@ -449,7 +449,7 @@ export default function WeddingInvitation() {
 
   const kakaoUrl = `https://map.kakao.com/link/map/${encodeURIComponent("수원 마이어스 웨딩홀")},${WEDDING.lat},${WEDDING.lng}`;
   const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent("수원 마이어스 웨딩홀")}`;
-  const tmapUrl = `https://tmap.life/route?goalname=${encodeURIComponent("수원 마이어스 웨딩홀")}&goalx=${WEDDING.lng}&goaly=${WEDDING.lat}`;
+  const tmapUrl = `tmap://route?goalname=${encodeURIComponent("수원 마이어스 웨딩홀")}&goalx=${WEDDING.lng}&goaly=${WEDDING.lat}`;
   const googleEmbed = `https://maps.google.com/maps?q=${WEDDING.lat},${WEDDING.lng}&z=16&hl=ja&output=embed`;
   const googleUrl = `https://www.google.com/maps/search/?api=1&query=${WEDDING.lat},${WEDDING.lng}`;
 
