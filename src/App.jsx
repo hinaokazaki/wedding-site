@@ -67,7 +67,7 @@ const BGM_URL = "/bgm/bgmBlue.mp3";
 
 /* ---------- 写真 / 사진 (自動埋め込み) ---------- */
 const HERO_IMG = "/images/hero.webp";
-const GALLERY_COUNT = 34; // public/images/gallery-XX.webp の枚数
+const GALLERY_COUNT = 21; // public/images/gallery-XX.webp の枚数
 const GALLERY_IMGS = Array.from(
   { length: GALLERY_COUNT },
   (_, i) => `/images/gallery-${String(i + 1).padStart(2, "0")}.webp`,
