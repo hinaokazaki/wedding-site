@@ -97,7 +97,6 @@ const T = {
     location_title: "오시는 길",
     map_open_kakao: "카카오맵",
     map_open_naver: "네이버지도",
-    map_open_tmap: "티맵",
     map_note: "버튼을 누르면 지도 앱으로 연결됩니다",
     transport_title: "교통 안내",
     bus_label: "버스",
@@ -159,7 +158,6 @@ const T = {
     location_title: "アクセス",
     map_open_kakao: "カカオマップ",
     map_open_naver: "NAVERマップ",
-    map_open_tmap: "Tmap",
     map_note: "Googleマップで会場の位置をご確認いただけます",
     map_open_google: "Googleマップで開く",
     transport_title: "交通のご案内",
@@ -449,7 +447,6 @@ export default function WeddingInvitation() {
 
   const kakaoUrl = `https://map.kakao.com/link/map/${encodeURIComponent("수원 마이어스 웨딩홀")},${WEDDING.lat},${WEDDING.lng}`;
   const naverUrl = `https://map.naver.com/p/search/${encodeURIComponent("수원 마이어스 웨딩홀")}`;
-  const tmapUrl = `tmap://route?goalname=${encodeURIComponent("수원 마이어스 웨딩홀")}&goalx=${WEDDING.lng}&goaly=${WEDDING.lat}`;
   const googleEmbed = `https://maps.google.com/maps?q=${WEDDING.lat},${WEDDING.lng}&z=16&hl=ja&output=embed`;
   const googleUrl = `https://www.google.com/maps/search/?api=1&query=${WEDDING.lat},${WEDDING.lng}`;
 
@@ -711,14 +708,6 @@ export default function WeddingInvitation() {
                   }}
                 >
                   {t.map_open_naver}
-                </a>
-                <a
-                  href={tmapUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  style={S.mapBtn}
-                >
-                  {t.map_open_tmap}
                 </a>
               </div>
             </>
