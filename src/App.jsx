@@ -318,9 +318,14 @@ export default function WeddingInvitation() {
         }
         try {
           await audioRef.current.play();
-        } catch {
+        } catch (err) {
+          if (err?.name === "NotAllowedError") {
+            // 自動再生ブロック(ユーザー操作待ち)。ファイル自体は正常なので
+            // デモピアノにはフォールバックせず、次のユーザー操作での再試行を待つ。
+            return;
+          }
           audioRef.current = null;
-          await startDemoPiano(); // 音源が無ければデモピアノ
+          await startDemoPiano(); // 本当にファイルが無い/再生できない場合のみデモピアノ
         }
       } else {
         await startDemoPiano();
