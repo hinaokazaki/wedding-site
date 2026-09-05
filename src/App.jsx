@@ -108,26 +108,11 @@ const T = {
     account_title: "마음 전하실 곳",
     account_note:
       "참석이 어려우신 분들을 위해 기재했습니다.\n너그러운 마음으로 양해 부탁드립니다.",
-    groom_side: "신랑측",
-    bride_side: "신부측",
     account_groom_father: "신랑의 아버지",
     account_groom_mother: "신랑의 어머니",
     account_groom: "신랑",
     copy: "복사",
     copied: "복사되었습니다",
-    rsvp_title: "참석 여부",
-    rsvp_lead: "특별한 날, 귀한 발걸음을\n참석 여부를 통해 전해 주세요.",
-    rsvp_name: "성함",
-    rsvp_side: "구분",
-    rsvp_attend: "참석 여부",
-    attend_yes: "참석",
-    attend_no: "불참",
-    rsvp_meal: "식사 여부",
-    meal_yes: "예정",
-    meal_no: "미예정",
-    rsvp_count: "본인 포함 인원",
-    rsvp_submit: "참석 여부 전달하기",
-    rsvp_done: "전달되었습니다. 감사합니다 🤍",
     guestbook_title: "방명록",
     gb_placeholder_name: "이름",
     gb_placeholder_msg: "축하 메시지를 남겨 주세요",
@@ -167,24 +152,8 @@ const T = {
     parking_label: "駐車場",
     parking_body:
       "NCモール地下駐車場をご利用ください(2時間無料・ターミナル側エレベーター)\n満車の場合はEマート駐車場もご利用いただけます(2時間無料)",
-    groom_side: "新郎側",
-    bride_side: "新婦側",
     copy: "コピー",
     copied: "コピーしました",
-    rsvp_title: "ご出欠のご連絡",
-    rsvp_lead:
-      "お手数ですが、ご出欠を\nこちらからお知らせいただけますと幸いです。",
-    rsvp_name: "お名前",
-    rsvp_side: "ご関係",
-    rsvp_attend: "ご出欠",
-    attend_yes: "出席",
-    attend_no: "欠席",
-    rsvp_meal: "お食事",
-    meal_yes: "希望する",
-    meal_no: "希望しない",
-    rsvp_count: "ご本人を含む人数",
-    rsvp_submit: "出欠を送信する",
-    rsvp_done: "送信しました。ありがとうございます 🤍",
     guestbook_title: "ゲストブック",
     gb_placeholder_name: "お名前",
     gb_placeholder_msg: "お祝いのメッセージをどうぞ",
@@ -214,15 +183,6 @@ export default function WeddingInvitation() {
   const [lang, setLang] = useState("ko");
   const [fade, setFade] = useState(false);
   const [toast, setToast] = useState("");
-  const [rsvps, setRsvps] = useState([]);
-  const [rsvpDone, setRsvpDone] = useState(false);
-  const [rsvpForm, setRsvpForm] = useState({
-    name: "",
-    side: "groom",
-    attend: "yes",
-    meal: "yes",
-    count: 1,
-  });
   const [guestbook, setGuestbook] = useState([]);
   const [gbForm, setGbForm] = useState({ name: "", msg: "" });
   const [lightbox, setLightbox] = useState(null);
@@ -400,28 +360,6 @@ export default function WeddingInvitation() {
     if (navigator.clipboard?.writeText)
       navigator.clipboard.writeText(text).then(done).catch(done);
     else done();
-  };
-
-  const submitRsvp = async () => {
-    if (!rsvpForm.name.trim() || sending) return;
-    setSending(true);
-    if (supabase) {
-      const { error } = await supabase.from("rsvps").insert({
-        name: rsvpForm.name.trim(),
-        side: rsvpForm.side,
-        attend: rsvpForm.attend === "yes",
-        meal: rsvpForm.attend === "yes" ? rsvpForm.meal === "yes" : null,
-        guest_count: rsvpForm.attend === "yes" ? rsvpForm.count : 0,
-      });
-      if (error) {
-        setSending(false);
-        setToast(t.error);
-        setTimeout(() => setToast(""), 2200);
-        return;
-      }
-    }
-    setSending(false);
-    setRsvpDone(true);
   };
 
   const submitGb = async () => {
@@ -777,107 +715,14 @@ export default function WeddingInvitation() {
           </section>
         )}
 
-        {/* ---- RSVP ---- */}
-        <section style={{ ...S.section, borderTop: `1px solid ${C.line}` }}>
-          <p style={S.eyebrow}>R.S.V.P</p>
-          <h2 style={S.h2}>{t.rsvp_title}</h2>
-          <p style={{ ...S.body, marginBottom: 24 }}>{t.rsvp_lead}</p>
-          {rsvpDone ? (
-            <p style={{ ...S.body, color: C.accent }}>{t.rsvp_done}</p>
-          ) : (
-            <div style={{ textAlign: "left" }}>
-              <label style={S.formLabel}>{t.rsvp_name}</label>
-              <input
-                value={rsvpForm.name}
-                onChange={(e) =>
-                  setRsvpForm({ ...rsvpForm, name: e.target.value })
-                }
-                style={S.input}
-              />
-              <label style={S.formLabel}>{t.rsvp_side}</label>
-              <div style={S.segRow}>
-                {[
-                  ["groom", t.groom_side],
-                  ["bride", t.bride_side],
-                ].map(([v, lb]) => (
-                  <button
-                    key={v}
-                    onClick={() => setRsvpForm({ ...rsvpForm, side: v })}
-                    style={{
-                      ...S.seg,
-                      ...(rsvpForm.side === v ? S.segOn : {}),
-                    }}
-                  >
-                    {lb}
-                  </button>
-                ))}
-              </div>
-              <label style={S.formLabel}>{t.rsvp_attend}</label>
-              <div style={S.segRow}>
-                {[
-                  ["yes", t.attend_yes],
-                  ["no", t.attend_no],
-                ].map(([v, lb]) => (
-                  <button
-                    key={v}
-                    onClick={() => setRsvpForm({ ...rsvpForm, attend: v })}
-                    style={{
-                      ...S.seg,
-                      ...(rsvpForm.attend === v ? S.segOn : {}),
-                    }}
-                  >
-                    {lb}
-                  </button>
-                ))}
-              </div>
-              {rsvpForm.attend === "yes" && (
-                <>
-                  <label style={S.formLabel}>{t.rsvp_meal}</label>
-                  <div style={S.segRow}>
-                    {[
-                      ["yes", t.meal_yes],
-                      ["no", t.meal_no],
-                    ].map(([v, lb]) => (
-                      <button
-                        key={v}
-                        onClick={() => setRsvpForm({ ...rsvpForm, meal: v })}
-                        style={{
-                          ...S.seg,
-                          ...(rsvpForm.meal === v ? S.segOn : {}),
-                        }}
-                      >
-                        {lb}
-                      </button>
-                    ))}
-                  </div>
-                  <label style={S.formLabel}>{t.rsvp_count}</label>
-                  <input
-                    type="number"
-                    min={1}
-                    max={10}
-                    value={rsvpForm.count}
-                    onChange={(e) =>
-                      setRsvpForm({
-                        ...rsvpForm,
-                        count: Number(e.target.value),
-                      })
-                    }
-                    style={S.input}
-                  />
-                </>
-              )}
-              <button
-                onClick={submitRsvp}
-                style={{ ...S.wideBtn, marginTop: 8 }}
-              >
-                {t.rsvp_submit}
-              </button>
-            </div>
-          )}
-        </section>
-
         {/* ---- GUESTBOOK ---- */}
-        <section style={{ ...S.section, background: "#F6F1EA" }}>
+        <section
+          style={{
+            ...S.section,
+            background: "#F6F1EA",
+            borderTop: `1px solid ${C.line}`,
+          }}
+        >
           <p style={S.eyebrow}>GUESTBOOK</p>
           <h2 style={S.h2}>{t.guestbook_title}</h2>
           <div style={{ textAlign: "left" }}>
@@ -1290,13 +1135,6 @@ function styles(bodyFont) {
       alignItems: "center",
       marginBottom: 8,
     },
-    formLabel: {
-      display: "block",
-      fontSize: 12,
-      color: C.sub,
-      letterSpacing: 1,
-      margin: "14px 0 6px",
-    },
     input: {
       width: "100%",
       border: `1px solid ${C.line}`,
@@ -1308,18 +1146,6 @@ function styles(bodyFont) {
       outline: "none",
       marginBottom: 6,
     },
-    segRow: { display: "flex", gap: 8 },
-    seg: {
-      flex: 1,
-      border: `1px solid ${C.line}`,
-      background: "#fff",
-      color: C.sub,
-      borderRadius: 8,
-      padding: "10px 0",
-      fontSize: 13,
-      transition: "all .15s",
-    },
-    segOn: { background: C.ink, color: "#fff", borderColor: C.ink },
     toast: {
       position: "fixed",
       bottom: 30,

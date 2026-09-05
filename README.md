@@ -1,7 +1,7 @@
 # 민우 ♥ ひな — Bilingual Wedding Invitation (KR/JP)
 
 ボタン1つで韓国語/日本語が切り替わるモバイルWeb招待状です。
-Vite + React 製。RSVPとゲストブックは Supabase に保存されます。
+Vite + React 製。ゲストブックは Supabase に保存されます。
 
 ## ローカルで動かす
 
@@ -12,20 +12,17 @@ npm run dev
 
 Supabase 未設定でも動きます(送信データが保存されないだけ)。
 
-## Supabase のセットアップ(RSVP・ゲストブック保存)
+## Supabase のセットアップ(ゲストブック保存)
 
 1. https://supabase.com で無料プロジェクトを作成
 2. SQL Editor に `supabase/schema.sql` の中身を貼り付けて実行
-   (rsvps / guestbook テーブルとアクセスポリシーが作られます)
+   (guestbook テーブルとアクセスポリシーが作られます)
 3. Settings > API から URL と anon key をコピー
 4. `.env.example` をコピーして `.env` を作り、2つの値を貼り付け
 
 ```bash
 cp .env.example .env
 ```
-
-RSVPの回答は Supabase 管理画面の Table Editor > rsvps で確認できます
-(ゲスト側からは見えない設定になっています)。
 
 ## Vercel へデプロイ
 
